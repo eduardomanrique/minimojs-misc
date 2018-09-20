@@ -98,6 +98,22 @@ const outdent = (s, ...val) => {
             return result;
         }).join('\n').trim();
 }
+const toPromise = (p1, p2) => new Promise((resolve, reject) => {
+    if (typeof p1 == "function") {
+        const fn = p1;
+        const parameters = p2 instanceof Array ? p2 : [p2];
+        parameters.push((err, result) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result);
+            }
+        });
+        fn(...parameters);
+    } else {
+        resolve(p1);
+    }
+});
 module.exports = {
     flatten: flatten,
     nodeListToArray: nodeListToArray,
@@ -111,6 +127,7 @@ module.exports = {
     safeToString: safeToString,
     getQueryParams: getQueryParams,
     outdent: outdent,
+    toPromise,
     getWindow: () => {
         let _temp = window;
         if (!_temp) {
