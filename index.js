@@ -128,16 +128,5 @@ module.exports = {
     getQueryParams: getQueryParams,
     outdent: outdent,
     toPromise,
-    getWindow: () => {
-        let _temp = window;
-        if (!_temp) {
-            _temp = global;
-            global.location = {
-                pathname: "",
-                search: ""
-            };
-        }
-        return _temp;
-    },
     createBuilder: createBuilder
 };
